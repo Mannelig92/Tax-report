@@ -3,15 +3,15 @@ import java.util.Random;
 import java.util.concurrent.atomic.LongAdder;
 
 public class Main {
-    static ArrayList<Integer> amount = new ArrayList<>();
     static LongAdder stat = new LongAdder();
 
-    final static int COUNT_OF_SHOPS = 3;
     final static int MAX_PRICE = 100_000;
 
     static Thread threadShop1 = new Thread(Main::sumMoney, "Магазин №1");
     static Thread threadShop2 = new Thread(Main::sumMoney, "Магазин №2");
     static Thread threadShop3 = new Thread(Main::sumMoney, "Магазин №3");
+
+    static int countOfOperations = 0;
 
     public static void main(String[] args) {
         threadShop1.start();
@@ -28,11 +28,8 @@ public class Main {
     }
 
     public static void sumMoney() {
-        amount.add(amountFromOne());
-        if (amount.size() == COUNT_OF_SHOPS) {
-            for (Integer i : amount) {
-                stat.add(i);
-            }
+        stat.add(amountFromOne());
+        if (countOfOperations == 3) {
             System.out.printf("Всего денег получено - %s рублей", stat.sum());
         }
     }
@@ -48,6 +45,7 @@ public class Main {
             amountFromOneShop = amountFromOneShop + i;
         }
         System.out.printf("Денег получено с %s - %d рублей\n", Thread.currentThread().getName(), amountFromOneShop);
+        countOfOperations++;
         return amountFromOneShop;
     }
 }

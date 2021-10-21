@@ -6,12 +6,11 @@ public class Main {
     static LongAdder stat = new LongAdder();
 
     final static int MAX_PRICE = 100_000;
+    static int countOfOperations;
 
     static Thread threadShop1 = new Thread(Main::sumMoney, "Магазин №1");
     static Thread threadShop2 = new Thread(Main::sumMoney, "Магазин №2");
     static Thread threadShop3 = new Thread(Main::sumMoney, "Магазин №3");
-
-    static int countOfOperations = 0;
 
     public static void main(String[] args) {
         threadShop1.start();
